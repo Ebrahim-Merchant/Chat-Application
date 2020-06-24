@@ -1,28 +1,12 @@
-import User from './models/user'
-import Conversation from './models/converstation'
-import Message from './models/message'
+import User from '../models/user'
+import Conversation from '../models/converstation'
+import Message from '../models/message'
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
-import { getSecret } from './secrets';
+import key from '../secrets';
 import mongoose from 'mongoose';
 import Crypto, { createHash } from 'crypto';
-
-//Connect to DB
-const app = express();
-const router = express.Router();
-mongoose.connect(getSecret('dbUri'));
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, "MongoDB connection error: "));
-//Setting the API port
-const API_PORT = process.env.API_PORT || 3001;
-
-//Setting up the API
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.use(logger("dev"));
-app.use('/api', router);
-app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
 
 
 router.get('/', (req,res)   => {
@@ -105,7 +89,6 @@ router.post('/register', (req, res) => {
 
 router.delete('/user/:userId', (req, res) => {
     const { userId } = req.params
-    console.log(userId)
     if(!userId){
         return res.json({success: false, error: "Please Enter a User ID"});
     }
@@ -123,7 +106,6 @@ router.delete('/user/:userId', (req, res) => {
 })
 
 router.post('/authenticate', (req, res) => {
-    console.log(req.body);
     const { firstName, lastName, password } = req.body;
     if(!firstName || !lastName)
     {
@@ -169,13 +151,11 @@ router.get('/user/:userId', (req, res) =>
 
 router.post('/new/conversation', (req, res) => {
     const {recipentId, composedMessage, userId} = req.body;
-    console.log(recipentId+", "+composedMessage+", "+ userId)
     if(!recipentId) {return res.json({success: false, error:"Please add a recipents"});}
     if(!composedMessage){return res.json({sucess:false, error:"Please enter a message"});}
     const conversation = new Conversation({
         participants : [userId,recipentId]
     });
-    console.log(conversation)
 
     conversation.save((err, newConversation)=>{
         if (err) return res.json({success: false, error: err._message})
