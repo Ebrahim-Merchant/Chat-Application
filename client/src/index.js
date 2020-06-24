@@ -1,10 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import CommentBox from './CommentBox';
 import * as serviceWorker from './serviceWorker';
-import App from './App'
+import ChatPage from './pages/chat-page';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import LoginPage from './pages/login-page';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const RouterFunction = () => (
+	<Router>
+		<div>
+			<Switch>
+				<Route exact path='/'>
+					<ChatPage />
+				</Route>
+				<Route path='/login'>
+					<LoginPage />
+				</Route>
+			</Switch>
+		</div>
+	</Router>
+);
+
+ReactDOM.render(<RouterFunction />, document.getElementById('root'));
 
 serviceWorker.unregister();
