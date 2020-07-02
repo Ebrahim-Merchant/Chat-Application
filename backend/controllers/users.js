@@ -15,7 +15,6 @@ router.get('/', (_req, res) => {
 */
 router.delete('/:userId', (req, res) => {
 	const { userId } = req.params;
-	console.log(userId);
 	if (!userId) {
 		return res.json({ success: false, error: 'Please Enter a User ID' });
 	} else if (userId == 'all') {

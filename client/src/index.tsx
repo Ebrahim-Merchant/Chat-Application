@@ -6,9 +6,9 @@ import ChatPage from './pages/chat-page';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginPage from './pages/login-page';
 
+
 const RouterFunction = () => (
 	<Router>
-		<div>
 			<Switch>
 				<Route exact path='/'>
 					<ChatPage />
@@ -17,7 +17,6 @@ const RouterFunction = () => (
 					<LoginPage />
 				</Route>
 			</Switch>
-		</div>
 	</Router>
 );
 

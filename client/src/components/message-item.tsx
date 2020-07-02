@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Chip, Grid, Avatar, Tooltip } from '@material-ui/core';
+import { Grid, Avatar, Tooltip } from '@material-ui/core';
+import { UtilsService } from 'shared/utils';
+import MessageContent from './message-content';
 
-export default class MessageItem extends Component {
+export default class MessageItem extends Component<any, any> {
 	state = {
 		toggleCreatedAtText: false,
 	};
@@ -15,18 +17,18 @@ export default class MessageItem extends Component {
 
 	render() {
 		const { toggleCreatedAtText } = this.state;
-		const { item, classes, index, isCurrentUser } = this.props;
+		const { item, classes, isCurrentUser } = this.props;
 
 		return isCurrentUser ? (
 			<Grid
 				className={classes.messageItem}
-				key={index}
 				direction="column"
 				container
 				justify="flex-end"
 				alignItems="flex-end"
 				onClick={() => this.toggleCreatedText()}>
-				<Chip label={item.body} color="primary" />
+				{/* <Chip label={item.body} color="primary" /> */}
+				<MessageContent primary={true} label={item.body}></MessageContent>
 				<span style={{ fontSize: '0.75rem', color: 'grey' }}>
 					{toggleCreatedAtText
 						? `${moment(item.createdAt).format('LLLL')}`
@@ -34,7 +36,9 @@ export default class MessageItem extends Component {
 				</span>
 			</Grid>
 		) : (
-			<Grid key={index} direction="column" container>
+			<Grid 
+			className={classes.messageItem}
+			direction="column"container>
 				<Grid
 					direction="row"
 					container
@@ -42,11 +46,11 @@ export default class MessageItem extends Component {
 					<Tooltip
 						title={`${item.author.profile.firstName} ${item.author.profile.lastName}`}>
 						<Avatar>
-							{`${item.author.profile.firstName.substring(0,1)} ${item.author.profile.lastName.substring(0, 1)}`}
+							{UtilsService.getInitials(item.author.profile)}
 						</Avatar>
 					</Tooltip>
-					<div style={{ display: 'flex', flexDirection: 'column' }}>
-						<Chip label={item.body} />
+					<div style={{ display: 'flex', flexDirection: 'column', marginLeft: '0.5rem' }}>
+						<MessageContent label={item.body}></MessageContent>
 					</div>
 				</Grid>
 				<span style={{ fontSize: '0.75rem', color: 'grey' }}>

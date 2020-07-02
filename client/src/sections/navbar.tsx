@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -8,6 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 300;
+
+interface IPropTypes {
+    classes: any,
+    selectedUser: any,
+    handleDrawerToggle: () => any
+};
 
 const styles = theme => ({
     appBar: {
@@ -28,14 +33,14 @@ const styles = theme => ({
       }
 });
 
-class NavBar extends Component {
+class NavBar extends Component<IPropTypes, any> {
     
 
 
     render() {
         const { classes, selectedUser } = this.props;
         var firstName, lastName;
-        if(selectedUser.profile == undefined){
+        if(selectedUser.profile === undefined) {
             firstName = "Please Select a User"
             lastName = ""
         }
@@ -50,7 +55,7 @@ class NavBar extends Component {
                     <IconButton
                         color="inherit"
                         aria-label="Open drawer"
-                        onClick={this.handleDrawerToggle}
+                        onClick={this.props.handleDrawerToggle}
                         className={classes.menuButton} >
                         <MenuIcon />
                     </IconButton>
@@ -63,10 +68,5 @@ class NavBar extends Component {
     }
 }
 
-
-NavBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-    selectedUser: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(NavBar);

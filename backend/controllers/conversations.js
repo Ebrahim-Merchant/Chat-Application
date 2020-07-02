@@ -5,7 +5,6 @@ import { ConversationsService } from '../services/conversations';
 
 const router = express.Router();
 const conversationService = new ConversationsService();
-console.log(conversationService);
 
 router.get('/', (_req, res) => {
 	res.json({ message: 'Conversataion endpoint is live' });
@@ -33,7 +32,6 @@ router.get('/:conversationId', (req, res) => {
 
 router.post('/new', (req, res) => {
 	const { recipentId, composedMessage, userId } = req.body;
-	console.log(recipentId + ', ' + composedMessage + ', ' + userId);
 	if (!recipentId) {
 		return res.json({ success: false, error: 'Please add a recipents' });
 	}
@@ -43,7 +41,6 @@ router.post('/new', (req, res) => {
 	const conversation = new Conversation({
 		participants: [userId, recipentId],
 	});
-	console.log(conversation);
 
 	conversation.save((err, newConversation) => {
 		if (err) return res.json({ success: false, error: err._message });
@@ -53,9 +50,9 @@ router.post('/new', (req, res) => {
 			author: userId,
 		});
 
-		message.save((err, _newMessage) => {
+		message.save((err, newMessage) => {
 			if (err) return res.json({ success: false, error: err });
-			else res.json({ success: true, message: 'Conversation started!' });
+			else res.json({ message: newMessage});
 		});
 	});
 });
@@ -72,10 +69,9 @@ router.post('', (req, res) => {
 	reply.conversationId = conversationId;
 	reply.body = body;
 	reply.author = author;
-	console.log(reply);
-	reply.save((err) => {
+	reply.save((err, message) => {
 		if (err) return res.status(500).json({ success: false, error: err });
-		return res.json({ success: true });
+		return res.json(message.toJSON());
 	});
 });
 

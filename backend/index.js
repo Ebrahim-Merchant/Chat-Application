@@ -7,10 +7,13 @@ import conversation from './controllers/conversations';
 import auth from './controllers/auth';
 import users from './controllers/users';
 import reset from './controllers/reset';
-
-
+import http from 'http';
+import io from 'socket.io';
+import ChatSocket from './controllers/chat_socket';
 // Init server - Connect to No SQL
 const app = express();
+const server = http.Server(app);
+const socket = io(server);
 const router = express.Router();
 mongoose.connect(key);
 var db = mongoose.connection;
@@ -27,6 +30,5 @@ app.use('/api/conversation', conversation);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/api/reset', reset);
-app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
-
-
+new ChatSocket(socket).connect();
+server.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));

@@ -4,9 +4,8 @@ import SendIcon from '@material-ui/icons/Send';
 import Grid from '@material-ui/core/Grid';
 import InputBase from '@material-ui/core/InputBase';
 import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
 
-const styles = (theme) => ({
+const styles: any = () => ({
 	stickToBottom: {
 		position: 'fixed',
 		bottom: 0,
@@ -22,27 +21,27 @@ const styles = (theme) => ({
 	iconButton: {
 		padding: 10,
 	},
+	inputContainer: {
+		padding: '0.5rem',
+		borderTop: '1px solid grey',
+		width: '100%',
+		backgroundColor: 'white'
+	}
 });
 
-class ChatForm extends Component {
+class ChatForm extends Component<any, any> {
 	state = {
 		currentText: '',
 	};
-
-	propTypes = {
-    classes: PropTypes.object.isRequired,
-    submitComment: PropTypes.func.isRequired
-};
-
 	handleTextFieldChange(e) {
 		this.setState({
 			currentText: e.target.value,
 		});
 	}
 
-	submitComment(currentText) {
+	sendMessage(currentText) {
 		if (currentText && currentText !== '') {
-			this.props.submitComment(currentText);
+			this.props.sendMessage(currentText);
 			this.setState({ currentText: '' });
 		}
 	}
@@ -52,12 +51,7 @@ class ChatForm extends Component {
 		const { classes } = this.props;
 		return (
 			<Grid
-				style={{
-					width: '100%',
-					backgroundColor: 'white',
-					boxShadow: '0px -5px 8px #888888',
-				}}
-				className={classes.stickToBottom}
+				className={classes.stickToBottom + ' ' + classes.inputContainer}
 				container>
 				<InputBase
 					value={currentText}
@@ -65,11 +59,11 @@ class ChatForm extends Component {
 					placeholder='Message'
 					onChange={($e) => this.handleTextFieldChange($e)}
 					onKeyDown={($event) =>
-						$event.key === 'Enter' ? this.submitComment(currentText) : ''
+						$event.key === 'Enter' ? this.sendMessage(currentText) : ''
 					}
 				/>
 				<IconButton
-					onClick={() => this.submitComment(currentText)}
+					onClick={() => this.sendMessage(currentText)}
 					className={classes.iconButton + ' ' + classes.stickToRight}
 					aria-label='Send'>
 					<SendIcon />
