@@ -50,7 +50,6 @@ class ChatPage extends Component {
   }
 
   componentDidMount() {
-      console.log(AuthGaurd.isUserAuthenticated());
       if (AuthGaurd.isUserAuthenticated()) {
         getUserProfile(AuthGaurd.getUserId()).then((currentUser) => {
           selectedCurrentUser.setData(currentUser);
