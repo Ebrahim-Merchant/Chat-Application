@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
-import key from './secrets';
 import mongoose from 'mongoose';
 import conversation from './controllers/conversations';
 import auth from './controllers/auth';
