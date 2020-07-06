@@ -12,7 +12,7 @@ import io from 'socket.io';
 const path = require('path');
 import ChatSocket from './controllers/chat_socket';
 
-const dbUrl = process.env.DB_URL || key;
+const dbUrl = process.env.DB_URL;
 // Init server - Connect to No SQL
 const app = express();
 const server = http.Server(app);
@@ -23,7 +23,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, "MongoDB connection error: "));
 
 //Setting the API port
-const API_PORT = process.env.API_PORT || 3005;
+const PORT = process.env.PORT || 8080;
 
 //Setting up the API
 app.use(bodyParser.urlencoded({extended: false}));
@@ -37,4 +37,4 @@ app.use(express.static(path.join(__dirname, '../../../client')));
 app.use('/', react_app);
 
 new ChatSocket(socket).connect();
-server.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
