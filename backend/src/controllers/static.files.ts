@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { Request, Response, Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 const path = require('path');
 
 router.use(express.static(path.join(__dirname, '../../../client/build')))
 
-router.get('/*', (req, res) => {
+router.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 

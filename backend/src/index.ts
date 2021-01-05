@@ -6,24 +6,25 @@ import conversation from './controllers/conversations';
 import auth from './controllers/auth';
 import users from './controllers/users';
 import reset from './controllers/reset';
-import react_app from './controllers/react_app';
+import staticServer from './controllers/static.files'
 import http from 'http';
 import io from 'socket.io';
-const path = require('path');
-import ChatSocket from './controllers/chat_socket';
+import { chatServer } from './controllers/chat.socket.server';
+import { config } from 'dotenv';
+import path from 'path';
 
-const dbUrl = process.env.DB_URL;
+config();
+const dbUrl = process.env.DB_URL ? process.env.DB_URL : '';
 // Init server - Connect to No SQL
 const app = express();
-const server = http.Server(app);
+const server = new http.Server(app);
 const socket = io(server);
-const router = express.Router();
-mongoose.connect(dbUrl);
-var db = mongoose.connection;
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, "MongoDB connection error: "));
 
 //Setting the API port
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3005;
 
 //Setting up the API
 app.use(bodyParser.urlencoded({extended: false}));
@@ -34,7 +35,7 @@ app.use('/api/users', users);
 app.use('/api/auth', auth);
 app.use('/api/reset', reset);
 app.use(express.static(path.join(__dirname, '../../../client')));
-app.use('/', react_app);
+app.use('/', staticServer);
 
-new ChatSocket(socket).connect();
+chatServer(socket);
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));

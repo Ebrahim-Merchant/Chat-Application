@@ -1,10 +1,8 @@
 import User from '../models/user';
-import express, { response } from 'express';
-import { ConversationsService } from '../services/conversations';
+import express from 'express';
+import { getUserConversation } from '../services/users';
 
 const router = express.Router();
-const conversationService = new ConversationsService();
-
 
 router.get('/', (_req, res) => {
 	res.json({ message: 'Users endpoint is live' });
@@ -57,9 +55,17 @@ router.get('/:userId', (req, res) => {
 	});
 });
 
-router.get('/conversations/:userId', (request, response, next) => {
+router.get('/conversations/:userId', (request, res, next) => {
 	const { userId } = request.params;
-	conversationService.getConversations(response, next, userId);
+	getUserConversation(userId)
+		.then((userConversation) => {
+			return res.json({
+				conversations : userConversation,
+			});
+		})
+		.catch((error) => {
+			res.status(500).json(error);
+		});
 })
 
 export default router;
