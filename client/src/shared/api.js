@@ -2,12 +2,7 @@ export const getChatMessages = (conversationId) => {
 	return new Promise((resolve, reject) =>
 		fetch(`/api/conversation/${conversationId}`)
 			.then((res) => handleErrors(res))
-			.then((res) => {
-				if (!res.success) reject(res.error);
-				else {
-					resolve(res.conversation);
-				}
-			})
+			.then((res) => resolve(res.conversation))
 	);
 };
 
