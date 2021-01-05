@@ -2,7 +2,7 @@
   "name": "chat-application",
   "version": "1.0.0",
   "description": "A chat application made in MongoDB, React and Express",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "heroku-postbuild": "npm run build:server && npm run build:client",
     "start:server": "cd backend && npm run start:dev",
