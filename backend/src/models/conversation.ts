@@ -2,7 +2,7 @@ import { IUser } from './user';
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IConversation extends Document {
-	participants: any[];
+	participants: IUser['_id'][];
 }
 
 // Schema defines how chat messages will be stored in MongoDB

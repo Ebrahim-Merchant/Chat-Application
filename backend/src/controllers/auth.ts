@@ -48,11 +48,15 @@ router.post('/register', (req: Request, res: Response) => {
 			message: 'Please provide a username and password',
 		});
 	}
-	createUser(firstName, lastName, email, password)
-		.then((user) => res.json({ userId: user._id }))
-		.catch((error) =>
-			res.status(409).json({ message: 'Account with that email exists', error })
-		);
+	getUserByEmail(email)
+		.then((user) => {
+			if (!user) {
+				createUser(firstName, lastName, email, password)
+					.then((newUser) => res.json({ userId: newUser.id }))
+			} else {
+				res.status(409).json({ message: "User already exists" })
+			}
+		})
 });
 
 router.post('/forgot/password', async (req: Request, res: Response) => {
