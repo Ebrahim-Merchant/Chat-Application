@@ -24,7 +24,7 @@
     "@types/morgan": "^1.9.2",
     "@types/nodemailer": "^6.4.0",
     "rimraf": "^3.0.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "typescript": "^3.9.6"
   },
   "devDependencies": {
