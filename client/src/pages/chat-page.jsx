@@ -42,6 +42,7 @@ class ChatPage extends Component {
     const selectedUserId = Object.keys(item.participants).find(
       (user) => user !== currentUser._id
     );
+
     selectedCurrentUser.setData(currentUser);
     this.setState({
       conversationId: item.conversationId,

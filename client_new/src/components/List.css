@@ -1,0 +1,11 @@
+.list-item{
+  padding: 1rem;
+}
+.list-item:hover {
+  background-color: #3890ff85;
+  transition: 100ms;
+}
+
+.list-item.selected {
+  background-color: #3890ff85 !important;
+}

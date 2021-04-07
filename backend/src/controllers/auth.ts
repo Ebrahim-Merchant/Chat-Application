@@ -32,7 +32,8 @@ router.post('/authenticate', (req: IAuthRequest, res: Response) => {
 	getUserByEmail(email).then((user) => {
 		const hashedPass = getHashedPassword(password);
 		if (user && user.password === hashedPass) {
-			return res.status(200).json({ userId: user._id });
+			const { firstName, lastName } = user.profile;
+			return res.status(200).json({ firstName, lastName, id: user._id });
 		} else {
 			return res
 				.status(401)
@@ -52,7 +53,7 @@ router.post('/register', (req: Request, res: Response) => {
 		.then((user) => {
 			if (!user) {
 				createUser(firstName, lastName, email, password)
-					.then((newUser) => res.json({ userId: newUser.id }))
+					.then((newUser) => res.json({ newUser }))
 			} else {
 				res.status(409).json({ message: "User already exists" })
 			}

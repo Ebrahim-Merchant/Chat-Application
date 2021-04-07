@@ -1,0 +1,11 @@
+.bottom-message{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  z-index: 10;
+}
+
+.bottom-message input[type="text"] {
+  width: 100%;
+  padding: 0.25rem;
+}

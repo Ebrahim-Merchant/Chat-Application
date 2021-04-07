@@ -112,10 +112,9 @@ class SideNav extends React.Component<IPropTypes, IState> {
 	}
 
 	getUserConversations(currentUser) {
-		getUserConversations(currentUser._id).then((userConversations) =>
-			this.setState({ userConversations })
-		);
-	}
+		getUserConversations(currentUser._id).then((userConversations) => {
+			this.setState({ userConversations })	})
+		}
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.currentUser !== this.state.currentUser) {
@@ -218,7 +217,7 @@ class SideNav extends React.Component<IPropTypes, IState> {
 			currentUser,
 			mobileOpen,
 		}: IState = this.state;
-		const value = userConversations.map((item) => {
+		const value = userConversations?.map((item) => {
 			subscribe(item.conversationId);
 			return this.getUser(currentUser._id, item, classes, selectedConversation)
 		});

@@ -1,5 +1,5 @@
-import Message from '../models/message';
-import Conversation from './../models/conversation';
+import Message from '../database/models/message';
+import Conversation from '../database/models/conversation';
 
 export const getConversation = async (userId: string, page: number = 1, limit: number = 100) => {
   return await Conversation.find({ participants: userId }).exec();

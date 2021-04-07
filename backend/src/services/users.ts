@@ -1,6 +1,6 @@
 import { getLatestMessage } from './message';
 import { getConversation } from './conversation';
-import User, { IUser } from '../models/user';
+import User, { IUser } from '../database/models/user';
 import { getHashedPassword } from './utils';
 
 export interface IUserConversation {
@@ -17,16 +17,18 @@ export const getUserConversation = async (id: string) => {
   const userConversations = await getConversation(id);
   const fullConversations =  userConversations.map(async (conversation) => {
     const message = await getLatestMessage(conversation);
-		const [userOne, userTwo] = conversation.participants;
-		let participants = {
-			[userOne]: await getUsers(userOne),
-			[userTwo]: await getUsers(userTwo),
-    };
-    
+    const [userOne, userTwo] = conversation.participants;
+
+		const recipient = userOne === id ? await getUsers(userTwo) : await getUsers(userOne);
+
+    if(message && message.author) {
+      message.author = undefined;
+    }
+
     return {
-			...message?.toObject(),
-      participants,
-      recipientId: userOne === id ? userOne : userTwo
+      ...message?.toObject(),
+      participants: conversation.participants,
+      recipient
     }
   });
 

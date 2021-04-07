@@ -1,5 +1,5 @@
-import { IConversation } from "../models/conversation";
-import Message from "../models/message";
+import { IConversation } from "../database/models/conversation";
+import Message from "../database/models/message";
 
 export const getLatestMessage = async ({ _id }: IConversation) => {
 	return await Message.findOne({ conversationId: _id })
